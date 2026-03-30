@@ -5,6 +5,7 @@ import LoginScreen from "../screens/auth/LoginScreen";
 import CadastroScreen from "../screens/auth/CadastroScreen";
 import ListaProdutos from "../screens/app/ListaProdutos";
 import FormProdutoScreen from "../screens/app/FormProdutoScreen";
+import TabNavigator from "./TabNavigator";
 
 const Stack = createNativeStackNavigator();
 
@@ -58,6 +59,19 @@ export default function AuthNavigator() {
                     headerTintColor: '#fff' 
                 }} 
             />
+            <Stack.Screen 
+                name="TabsApp" 
+                component={TabNavigator} 
+                options={{ 
+                    title: 'Bem-vindo(a)!', 
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: { fontSize: 25, fontWeight: 'bold' },
+                    headerStyle: { backgroundColor: '#000' },
+                    headerTintColor: '#fff',
+                    headerBackVisible: false // Remove a seta de voltar pro Login (não queremos que volte sem deslogar)
+                }} 
+            />
+
         </Stack.Navigator>
     );
 }

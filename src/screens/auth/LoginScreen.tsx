@@ -22,7 +22,7 @@ export default function LoginScreen() {
   const{navigate} = useNavigation()
 
 async function handleLogin() {
-    navigate('ListaProdutos' as any);
+  navigate('TabsApp' as any);
 }
 
 
