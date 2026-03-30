@@ -39,11 +39,23 @@ export default function ListaProdutos() {
         </Text>
       </View>
       
-      <View style={{ gap: 8 }}>
-        <TouchableOpacity style={[estilos.botaoAcao, { backgroundColor: CORES.vermelho }]} onPress={() => handleExcluir(item.id)}>
+      <View style={{ gap: 8, flexDirection: 'row' }}>
+        {/* Usamos o navigate passando o produto inteiro de brinde como parâmetro */}
+        <TouchableOpacity 
+          style={[estilos.botaoAcao, { backgroundColor: CORES.amarelo }]} 
+          onPress={() => navigate('FormProduto' as any, { produto: item })}
+        >
+           <Text style={[estilos.textoAcao, { color: '#000' }]}>Editar</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={[estilos.botaoAcao, { backgroundColor: CORES.vermelho }]} 
+          onPress={() => handleExcluir(item.id)}
+        >
            <Text style={[estilos.textoAcao, { color: '#fff' }]}>Excluir</Text>
         </TouchableOpacity>
       </View>
+
     </View>
   );
 

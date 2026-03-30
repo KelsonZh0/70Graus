@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, ActivityIndicator } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation,useRoute } from '@react-navigation/native';
 import { estilosGlobais, CORES, ESPACAMENTO } from '../../styles/themes';
 import { ProdutoService } from '../../services/ProdutoService';
 
 export default function FormProdutoScreen() {
   const { goBack } = useNavigation<any>();
   const [loading, setLoading] = useState(false);
+  const route = useRoute<any>();
+  const produtoEdicao = route.params?.produto;
 
-  const [nome, setNome] = useState('');
-  const [descricao, setDescricao] = useState('');
-  const [preco, setPreco] = useState('');
-  const [sku, setSku] = useState('');
-  const [tamanho, setTamanho] = useState('');
-  const [cor, setCor] = useState('');
-  const [marca, setMarca] = useState('');
+  const [nome, setNome] = useState(produtoEdicao ? produtoEdicao.nome : '');
+  const [descricao, setDescricao] = useState(produtoEdicao ? produtoEdicao.descricao : '');
+  const [preco, setPreco] = useState(produtoEdicao ? String(produtoEdicao.preco) : '');
+  const [sku, setSku] = useState(produtoEdicao ? produtoEdicao.sku : '');
+  const [tamanho, setTamanho] = useState(produtoEdicao ? produtoEdicao.tamanho : '');
+  const [cor, setCor] = useState(produtoEdicao ? produtoEdicao.cor : '');
+  const [marca, setMarca] = useState(produtoEdicao ? produtoEdicao.marca : '');
+
 
   async function handleSalvar() {
     if (!nome.trim() || !preco.trim()) {
@@ -23,9 +26,8 @@ export default function FormProdutoScreen() {
     }
 
     setLoading(true);
-    const precoDouble = parseFloat(preco.replace(',', '.')); // Corrige vírgula pra ponto pro JSON
-
-    const sucesso = await ProdutoService.criar({
+    const precoDouble = parseFloat(preco.replace(',', '.'));
+    const produtoSalvo = {
       nome,
       descricao,
       preco: isNaN(precoDouble) ? 0 : precoDouble,
@@ -33,7 +35,16 @@ export default function FormProdutoScreen() {
       tamanho,
       cor,
       marca
-    });
+    };
+
+    let sucesso = false;
+    
+    if (produtoEdicao?.id) {
+      sucesso = await ProdutoService.atualizar(produtoEdicao.id, produtoSalvo);
+    } else {
+      sucesso = await ProdutoService.criar(produtoSalvo);
+    }
+
     setLoading(false);
 
     if (sucesso) {

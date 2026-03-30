@@ -21,7 +21,7 @@ export default function TabNavigator() {
           } else if (route.name === 'Perfil') {
             return <FontAwesome5 name="user-alt" size={size} color={color} />;
           }
-          return null; // Caso não encontre aba (fallback)
+          return null;
         },
         tabBarActiveTintColor: CORES.amarelo,
         tabBarInactiveTintColor: 'gray',

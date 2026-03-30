@@ -40,6 +40,20 @@ export const ProdutoService = {
     }
   },
 
+  atualizar: async (id: number, produto: Omit<ProdutoProps, 'id' | 'ativo'>) => {
+    try {
+      const produtoCompleto = { ...produto, ativo: true };
+      const response = await fetch(`${BASE_URL}/produtos/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(produtoCompleto)
+      });
+      return response.ok;
+    } catch {
+      return false;
+    }
+  },
+
   // Excluir
   excluir: async (id: number) => {
     try {
@@ -48,5 +62,6 @@ export const ProdutoService = {
     } catch {
       return false;
     }
-  }
+  },
+
 };
