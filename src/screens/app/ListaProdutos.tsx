@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator, Alert } from 'react-native';
-import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { useNavigation, NavigationProp, useFocusEffect } from '@react-navigation/native';
 import { estilosGlobais, CORES, ESPACAMENTO, RAIO } from '../../styles/themes';
 import { ProdutoService, ProdutoProps } from '../../services/ProdutoService';
 
@@ -9,8 +9,13 @@ export default function ListaProdutos() {
   const [produtos, setProdutos] = useState<ProdutoProps[]>([]);
   const [carregando, setCarregando] = useState(true);
 
-  // Assim que abrir a tela, puxa do Java
-  useEffect(() => { carregarDados(); }, []);
+  // Assim que olhar para a tela de novo, ele puxa do Java secretamente
+  useFocusEffect(
+    useCallback(() => {
+      carregarDados();
+    }, [])
+  );
+
 
   async function carregarDados() {
     setCarregando(true);

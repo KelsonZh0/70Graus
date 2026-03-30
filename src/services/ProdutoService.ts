@@ -26,13 +26,12 @@ export const ProdutoService = {
   },
 
   // Cadastrar Produto
-  criar: async (produto: Omit<ProdutoProps, 'id' | 'ativo'>) => {
+  criar: async (produto: Omit<ProdutoProps, 'id'>) => {
     try {
-      const produtoCompleto = { ...produto, ativo: true };
       const response = await fetch(`${BASE_URL}/produtos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(produtoCompleto)
+        body: JSON.stringify(produto)
       });
       return response.ok;
     } catch {
@@ -40,13 +39,12 @@ export const ProdutoService = {
     }
   },
 
-  atualizar: async (id: number, produto: Omit<ProdutoProps, 'id' | 'ativo'>) => {
+  atualizar: async (id: number, produto: Omit<ProdutoProps, 'id'>) => {
     try {
-      const produtoCompleto = { ...produto, ativo: true };
       const response = await fetch(`${BASE_URL}/produtos/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(produtoCompleto)
+        body: JSON.stringify(produto)
       });
       return response.ok;
     } catch {
