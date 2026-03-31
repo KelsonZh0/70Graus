@@ -9,7 +9,9 @@ import PerfilScreen from '../screens/app/PerfilScreen';
 
 const Tab = createBottomTabNavigator();
 
-export default function TabNavigator() {
+export default function TabNavigator({ route }: any) {
+  const funcionario = route.params?.funcionario;
+
   return (
     <Tab.Navigator
       id="AppTabs"
@@ -50,7 +52,9 @@ if (route.name === 'HomeProdutos') {
         name="MeuPerfil" 
         component={PerfilScreen} 
         options={{ title: 'Perfil' }} 
+        initialParams={{ funcionario }}
       />
+
       
     </Tab.Navigator>
   );

@@ -106,6 +106,15 @@ export default function FormEstoqueScreen() {
               placeholderTextColor={CORES.textoDesabilitado} 
             />
 
+            <TouchableOpacity 
+              style={[estilosGlobais.botaoPrimario, { marginTop: ESPACAMENTO.xl }]} 
+              onPress={handleSalvar} 
+              disabled={loading}
+            >
+              {loading ? <ActivityIndicator color="#000" /> : <Text style={estilosGlobais.botaoPrimarioTexto}>Confirmar Balanço</Text>}
+            </TouchableOpacity>
+
+
             {estoqueAtual?.id && (
               <TouchableOpacity 
                 style={[estilosGlobais.botaoPrimario, { marginTop: ESPACAMENTO.md, backgroundColor: CORES.amarelo }]} 

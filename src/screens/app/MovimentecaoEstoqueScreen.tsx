@@ -4,8 +4,6 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { estilosGlobais, CORES, ESPACAMENTO } from '../../styles/themes';
 import { MovimentacaoService } from '../../services/MovimentacaoService';
-import { EstoqueService } from '../../services/EstoqueService';
-
 
 export default function MovimentacaoEstoqueScreen() {
   const navigation = useNavigation<any>();
@@ -17,7 +15,7 @@ export default function MovimentacaoEstoqueScreen() {
   const [tipo, setTipo] = useState<'ENTRADA' | 'SAÍDA'>('ENTRADA');
   const [quantidade, setQuantidade] = useState('');
 
-async function handleSalvarMovimentacao() {
+  async function handleSalvarMovimentacao() {
     if (!quantidade || parseInt(quantidade) <= 0) {
       Alert.alert('Erro', 'Informe uma quantidade válida para mover!');
       return;
@@ -26,41 +24,40 @@ async function handleSalvarMovimentacao() {
       Alert.alert('Erro crítico', 'Nenhum ID de estoque recebido na tela.');
       return;
     }
-    setLoading(true);
+
     const qtdeNumero = parseInt(quantidade);
+
+    if (tipo === 'SAÍDA' && qtdeNumero > estoque.quantidadeDisponivel) {
+      Alert.alert(
+        'Estoque insuficiente',
+        `Só existem ${estoque.quantidadeDisponivel} peças disponíveis. Você tentou retirar ${qtdeNumero}.`
+      );
+      return;
+    }
+
+    setLoading(true);
     const dataAtual = new Date().toISOString().split('T')[0];
-    // Passo 1: Salva o Papel do Histórico no BD (Via POST /movi-estoque)
+
     const sucessoMov = await MovimentacaoService.criarMovimentacao({
       estoqueId: estoque.id,
-      funcionarioId: 1, 
-      tipoMovimentacao: tipo, // Envia ENTRADA ou SAÍDA para o Java
+      funcionarioId: 1,
+      tipoMovimentacao: tipo,
       quantidade: qtdeNumero,
       dataMovimentacao: dataAtual,
     });
+
     if (sucessoMov) {
-      // Passo 2: O App vai fazer as contas de Matemática!
-      let novaQuantidade = estoque.quantidadeDisponivel;
-      
-      if (tipo === 'ENTRADA') {
-        novaQuantidade += qtdeNumero; // Soma peças
-      } else {
-        novaQuantidade -= qtdeNumero; // Tira peças
-        if(novaQuantidade < 0) novaQuantidade = 0; // Trava para não ter saldo negativo no App
-      }
-      // Monta as engrenagens para devolver os números para o Serviço Antigo
-      const novoEstoqueAtualizado = {
-        produtoId: estoque.produtoId,
-        quantidadeMinima: estoque.quantidadeMinima,
-        quantidadeDisponivel: novaQuantidade
-      };
-      // Passo 3: Manda o Front avisar ao Java do NOVO Saldo! (Via PUT /estoque/{id})
-      await EstoqueService.atualizar(estoque.id, novoEstoqueAtualizado);
-      Alert.alert('Balanço Atualizado', `A ${tipo.toLowerCase()} foi feita. Novo saldo físico: ${novaQuantidade}`);
+      Alert.alert('Movimentação registrada!', `A ${tipo.toLowerCase()} de ${qtdeNumero} peças foi salva com sucesso.`);
       navigation.goBack();
     } else {
-      Alert.alert('Falha', 'Não foi possível salvar o histórico. Tente ver se o Spring Boot subiu.');
+      Alert.alert(
+        'Operação recusada',
+        tipo === 'SAÍDA'
+          ? `O servidor bloqueou a saída. Verifique se há ${qtdeNumero} peças disponíveis no estoque.`
+          : 'Não foi possível registrar a movimentação. Verifique se o Spring Boot está rodando.'
+      );
     }
-    
+
     setLoading(false);
   }
 
@@ -77,8 +74,7 @@ async function handleSalvarMovimentacao() {
             <TouchableOpacity 
               style={[
                 estilosGlobais.botaoPrimario, 
-               { flex: 1, backgroundColor: tipo === 'ENTRADA' ? CORES.verde : '#333' }
-
+                { flex: 1, backgroundColor: tipo === 'ENTRADA' ? CORES.verde : '#333' }
               ]}
               onPress={() => setTipo('ENTRADA')}
             >
@@ -88,8 +84,7 @@ async function handleSalvarMovimentacao() {
             <TouchableOpacity 
               style={[
                 estilosGlobais.botaoPrimario, 
-               { flex: 1, backgroundColor: tipo === 'SAÍDA' ? CORES.vermelho : '#333' }
-
+                { flex: 1, backgroundColor: tipo === 'SAÍDA' ? CORES.vermelho : '#333' }
               ]}
               onPress={() => setTipo('SAÍDA')}
             >

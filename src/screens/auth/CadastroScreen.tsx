@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, ActivityIndicator, KeyboardAvoidingView, Platform } from 'react-native';
-
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, ActivityIndicator, KeyboardAvoidingView, Platform, Alert } from 'react-native';
+import { FuncionarioService } from '../../services/FuncionarioService';
 import { StatusBar } from 'expo-status-bar';
 
 import { estilosGlobais, ESPACAMENTO, CORES, FONTE, RAIO } from '../../styles/themes';
@@ -15,9 +15,31 @@ export default function CadastroScreen() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
-  const handleCadastro = () => {
-    console.log("Tentando cadastrar o usuário:", nome, email, senha);
-  };
+const handleCadastro = async () => {
+  if (!nome || !email || !senha) {
+    Alert.alert('Atenção', 'Preencha todos os campos!');
+    return;
+  }
+  if (senha.length < 6) {
+    Alert.alert('Atenção', 'A senha precisa ter no mínimo 6 caracteres.');
+    return;
+  }
+
+  setIsLoading(true);
+
+  const sucesso = await FuncionarioService.cadastrar({ nome, email, senha });
+
+  setIsLoading(false);
+
+  if (sucesso) {
+    Alert.alert('Conta criada!', 'Agora faça login com o nome e a senha que você cadastrou.', [
+      { text: 'OK', onPress: () => goBack() }
+    ]);
+  } else {
+    Alert.alert('Erro', 'Não foi possível cadastrar. Verifique se o Spring Boot está rodando.');
+  }
+};
+
 
   return (
     <KeyboardAvoidingView

@@ -8,9 +8,10 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
-
+import { FuncionarioService } from '../../services/FuncionarioService'
 import { StatusBar } from 'expo-status-bar';
 import { CORES, ESPACAMENTO, estilosGlobais, FONTE, RAIO } from '../../styles/themes';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
@@ -22,8 +23,30 @@ export default function LoginScreen() {
   const{navigate} = useNavigation()
 
 async function handleLogin() {
-  navigate('TabsApp' as any);
+  if (!nome || !senha) {
+    Alert.alert('Atenção', 'Preencha o nome e a senha!');
+    return;
+  }
+  if (senha.length < 6) {
+    Alert.alert('Atenção', 'A senha precisa ter no mínimo 6 caracteres.');
+    return;
+  }
+
+  setIsLoading(true);
+
+  const funcionario = await FuncionarioService.login(nome, senha);
+
+  setIsLoading(false);
+
+   if (funcionario) {
+    Alert.alert('Bem-vindo(a)!', `Olá, ${funcionario.nome}!`);
+    navigate('TabsApp' as any, { funcionario });
+
+  } else {
+    Alert.alert('Erro', 'Nome ou senha incorretos. Verifique seus dados.');
+  }
 }
+
 
 
   return (
