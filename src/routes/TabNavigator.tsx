@@ -3,9 +3,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { FontAwesome5 } from '@expo/vector-icons';
 
 import ListaProdutos from '../screens/app/ListaProdutos';
-import PerfilScreen from '../screens/app/PerfilScreen';
+import PainelEstoqueScreen from '../screens/app/PainelEstoqueScreen';
 import { CORES } from '../styles/themes';
-
 
 const Tab = createBottomTabNavigator();
 
@@ -18,8 +17,9 @@ export default function TabNavigator() {
         tabBarIcon: ({ color, size }) => {
           if (route.name === 'HomeProdutos') {
             return <FontAwesome5 name="box" size={size} color={color} />;
-          } else if (route.name === 'Perfil') {
-            return <FontAwesome5 name="user-alt" size={size} color={color} />;
+          } else if (route.name === 'PainelEstoque') {
+            // Ícone novo de Prancheta para o Estoque!
+            return <FontAwesome5 name="clipboard-list" size={size} color={color} />;
           }
           return null;
         },
@@ -37,11 +37,14 @@ export default function TabNavigator() {
         component={ListaProdutos} 
         options={{ title: 'Produtos' }} 
       />
+      
+      {/* Aqui nós matamos a tela de Perfil antiga e Injetamos o Dashboard Novo! */}
       <Tab.Screen 
-        name="Perfil" 
-        component={PerfilScreen} 
-        options={{ title: 'Perfil' }} 
+        name="PainelEstoque" 
+        component={PainelEstoqueScreen} 
+        options={{ title: 'Estoque Total' }} 
       />
+      
     </Tab.Navigator>
   );
 }

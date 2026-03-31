@@ -53,7 +53,7 @@ export default function FormProdutoScreen() {
 
         if (sucesso) {
             Alert.alert('Top!', 'Produto salvo no Banco de Dados!');
-            goBack(); // Fecha essa tela de Formulário e volta pra Lista
+            goBack(); 
         } else {
             Alert.alert('Erro', 'Falha ao salvar. Verifique se o servidor Java está ligado.');
         }
@@ -92,7 +92,6 @@ export default function FormProdutoScreen() {
                             ) : (
                                 <FontAwesome5 name="times-circle" size={18} color={CORES.vermelho} solid />
                             )}
-                            {/* O estilo label tem uma margem, podemos tirar a margem de baixo para alinhar perfeito com o ícone */}
                             <Text style={[estilosGlobais.label, { marginBottom: 0, marginTop: 0 }]}>
                                 {ativo ? 'Produto Ativo na Loja' : 'Produto Inativo'}
                             </Text>

@@ -32,10 +32,8 @@ async function handleLogin() {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <StatusBar style="light" />
-      {/* O container precisa ficar AQUI, envolvendo o cabeçalho e o formulário */}
       <View style={estilos.container}>
         <View style={estilos.cabecalho}>
-          {/* Alteramos o name para "box" (caixa) */}
           <FontAwesome5 
             name="box" 
             size={56} 
@@ -47,7 +45,6 @@ async function handleLogin() {
         </View>
 
 
-        {/* Formulário */}
         <View style={estilos.formulario}>
           <Text style={estilos.label}>Nome</Text>
           <TextInput
@@ -70,7 +67,6 @@ async function handleLogin() {
             secureTextEntry
           />
 
-          {/* Botão de login */}
           <TouchableOpacity
             style={[estilosGlobais.botaoPrimario, isLoading && estilos.botaoDesabilitado]}
             onPress={handleLogin}
@@ -83,7 +79,6 @@ async function handleLogin() {
             )}
           </TouchableOpacity>
 
-          {/* Link para cadastro */}
           <TouchableOpacity
             style={estilosGlobais.botaoSecundario}
             onPress={() => navigate('CadastroScreen')}

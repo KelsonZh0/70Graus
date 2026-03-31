@@ -1,4 +1,4 @@
-// src/navigation/AuthNavigator.tsx
+
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "../screens/auth/LoginScreen";
@@ -6,6 +6,7 @@ import CadastroScreen from "../screens/auth/CadastroScreen";
 import ListaProdutos from "../screens/app/ListaProdutos";
 import FormProdutoScreen from "../screens/app/FormProdutoScreen";
 import TabNavigator from "./TabNavigator";
+import FormEstoqueScreen from "../screens/app/FormEstoqueScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -15,44 +16,41 @@ export default function AuthNavigator() {
             <Stack.Screen 
                 name="LoginScreen" 
                 component={LoginScreen} 
-                // Mudando o título e pintando o fundo de preto:
                 options={{ 
                     title: 'Login',
                     headerTitleAlign: 'center',
                     headerTitleStyle: { fontSize: 25, fontWeight: 'bold' },
                     headerStyle: { backgroundColor: '#000' },
-                    headerTintColor: '#fff' // Cor da letra
+                    headerTintColor: '#fff' 
                 }} 
             />
             <Stack.Screen 
                 name="CadastroScreen" 
                 component={CadastroScreen} 
-                // Mudando o título e pintando o fundo de preto:
                 options={{ 
                     title: 'Cadastro',
                     headerTitleAlign: 'center',
                     headerTitleStyle: { fontSize: 25, fontWeight: 'bold' },
                     headerStyle: { backgroundColor: '#000' },
-                    headerTintColor: '#fff' // Cor da letra
+                    headerTintColor: '#fff' 
                 }} 
             />
             <Stack.Screen 
                 name="ListaProdutos" 
                 component={ListaProdutos} 
-                // Mudando o título e pintando o fundo de preto:
                 options={{ 
                     title: 'Lista de Produtos',
                     headerTitleAlign: 'center',
                     headerTitleStyle: { fontSize: 25, fontWeight: 'bold' },
                     headerStyle: { backgroundColor: '#000' },
-                    headerTintColor: '#fff' // Cor da letra
+                    headerTintColor: '#fff' 
                 }} 
             />
             <Stack.Screen 
                 name="FormProduto" 
                 component={FormProdutoScreen} 
                 options={{ 
-                    title: 'Cadastrar Produto', // Título da tela
+                    title: 'Cadastrar Produto', 
                     headerTitleAlign: 'center',
                     headerTitleStyle: { fontSize: 25, fontWeight: 'bold' },
                     headerStyle: { backgroundColor: '#000' },
@@ -68,9 +66,22 @@ export default function AuthNavigator() {
                     headerTitleStyle: { fontSize: 25, fontWeight: 'bold' },
                     headerStyle: { backgroundColor: '#000' },
                     headerTintColor: '#fff',
-                    headerBackVisible: false // Remove a seta de voltar pro Login (não queremos que volte sem deslogar)
+                    headerBackVisible: false
                 }} 
             />
+
+            <Stack.Screen 
+                name="FormEstoque" 
+                component={FormEstoqueScreen} 
+                options={{ 
+                    title: 'Controle de Estoque',
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: { fontSize: 25, fontWeight: 'bold' },
+                    headerStyle: { backgroundColor: '#000' },
+                    headerTintColor: '#fff' 
+                }} 
+            />
+
 
         </Stack.Navigator>
     );

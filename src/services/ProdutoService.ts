@@ -1,6 +1,4 @@
-const BASE_URL = 'http://10.0.2.2:8080'; // Cuidado: No celular físico, coloque o IP da sua máquina tipo 192.168.x.x
-
-// Tipagem idêntica aos atributos do seu Java
+const BASE_URL = 'http://10.0.2.2:8080'; 
 export interface ProdutoProps {
   id?: number; 
   nome: string;
@@ -14,7 +12,6 @@ export interface ProdutoProps {
 }
 
 export const ProdutoService = {
-  // Buscar a lista ("Ler")
   listar: async (): Promise<ProdutoProps[]> => {
     try {
       const response = await fetch(`${BASE_URL}/produtos`);
@@ -25,7 +22,6 @@ export const ProdutoService = {
     }
   },
 
-  // Cadastrar Produto
   criar: async (produto: Omit<ProdutoProps, 'id'>) => {
     try {
       const response = await fetch(`${BASE_URL}/produtos`, {
@@ -52,7 +48,6 @@ export const ProdutoService = {
     }
   },
 
-  // Excluir
   excluir: async (id: number) => {
     try {
       const response = await fetch(`${BASE_URL}/produtos/${id}`, { method: 'DELETE' });
