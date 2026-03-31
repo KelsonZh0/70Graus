@@ -1,263 +1,131 @@
 # 70Graus
 
-Aplicação mobile desenvolvida com **React Native + Expo + TypeScript** para apoiar a operação da marca **70Graus**, com foco em cadastro de produtos, controle de estoque, movimentações e gerenciamento de funcionários.
+Aplicação mobile desenvolvida com **React Native + Expo + TypeScript** para apoiar a operação da **70Graus**, com foco em **produtos, estoque, movimentações e funcionários**.
 
-O projeto foi estruturado para consumir uma **API REST em Java com Spring Boot**, separando claramente a interface mobile da camada de backend.
-
----
-
-## Visão geral
-
-O app foi pensado para centralizar operações comuns de um pequeno sistema de catálogo e estoque, oferecendo uma interface simples para:
-
-- autenticação de funcionários
-- cadastro, edição e exclusão de produtos
-- controle de estoque por produto
-- registro de entradas e saídas
-- visualização consolidada do estoque
-- manutenção de dados do usuário autenticado
-
-A aplicação segue uma organização em camadas simples, adequada para projeto acadêmico e protótipo funcional, com separação entre telas, navegação, serviços e tema visual.
+O projeto consome uma **API REST em Java com Spring Boot**, separando a camada mobile da regra de negócio no backend.
 
 ---
 
-## Funcionalidades
+## Preview
 
-### Autenticação
-- login de funcionário
-- cadastro de novo funcionário
-- acesso à área autenticada do app
-
-### Gestão de produtos
-- listagem de produtos cadastrados
-- criação de novos produtos
-- edição de produto existente
-- exclusão de produto
-- controle de atributos como descrição, preço, tamanho, cor, marca e status
-
-### Estoque
-- criação e atualização de estoque por produto
-- definição de quantidade disponível e quantidade mínima
-- painel com visão resumida do estoque
-
-### Movimentações
-- registro de movimentações de **entrada** e **saída**
-- atualização da quantidade do estoque via backend
-- histórico operacional por entidade de movimentação
-
-### Perfil
-- visualização dos dados do funcionário autenticado
-- edição de e-mail e senha
-- saída da sessão
+- Login e cadastro de funcionário
+- CRUD de produtos
+- Controle de estoque por produto
+- Registro de entrada e saída
+- Painel resumido de estoque
+- Perfil do usuário autenticado
 
 ---
 
-## Stack utilizada
+## Stack
 
 ### Mobile
-- **Expo**
-- **React Native**
-- **React 19**
-- **TypeScript**
+- Expo
+- React Native
+- TypeScript
+- React Navigation
+- Fetch API
 
-### Navegação
-- `@react-navigation/native`
-- `@react-navigation/native-stack`
-- `@react-navigation/bottom-tabs`
-
-### UI e suporte
-- `@expo/vector-icons`
-- `expo-status-bar`
-- `react-native-safe-area-context`
-- `react-native-screens`
-
-### Integração
-- `fetch` para consumo da API REST
-
-### Backend integrado
-- **Java 17**
-- **Spring Boot**
-- **Spring Web MVC**
-- **Spring Data JPA**
-- **H2 Database**
-- **Lombok**
-- **Jakarta Validation**
+### Backend
+- Java 17
+- Spring Boot
+- Spring Data JPA
+- H2 Database
+- Lombok
+- Jakarta Validation
 
 ---
 
-## Estrutura do projeto mobile
+## Estrutura
 
 ```text
 70Graus/
 ├── App.tsx
-├── app.json
-├── index.tsx
 ├── package.json
 ├── src/
 │   ├── routes/
-│   │   ├── AuthNavigator.tsx
-│   │   └── TabNavigator.tsx
 │   ├── screens/
 │   │   ├── auth/
-│   │   │   ├── CadastroScreen.tsx
-│   │   │   └── LoginScreen.tsx
 │   │   └── app/
-│   │       ├── FormEstoqueScreen.tsx
-│   │       ├── FormProdutoScreen.tsx
-│   │       ├── ListaProdutos.tsx
-│   │       ├── MovimentecaoEstoqueScreen.tsx
-│   │       ├── PainelEstoqueScreen.tsx
-│   │       └── PerfilScreen.tsx
 │   ├── services/
-│   │   ├── EstoqueService.ts
-│   │   ├── FuncionarioService.ts
-│   │   ├── MovimentacaoService.ts
-│   │   └── ProdutoService.ts
 │   └── styles/
-│       └── themes.ts
-└── android/ / ios/
 ```
-
----
-
-## Arquitetura adotada
-
-O projeto segue uma divisão objetiva e fácil de manter:
-
-- **screens**: telas da aplicação, separadas por fluxo público e autenticado
-- **routes**: configuração da navegação stack e tabs
-- **services**: camada responsável pela comunicação com a API
-- **styles**: tema visual e estilos reutilizáveis
-
-Essa abordagem reduz repetição de lógica nas telas e facilita manutenção e evolução do código.
-
----
-
-## Fluxo de navegação
-
-### Área pública
-- **Login**
-- **Cadastro**
-
-### Área autenticada
-- **Produtos**
-- **Estoque Total**
-- **Perfil**
-
-Além das abas principais, o app possui telas complementares para:
-
-- cadastro e edição de produto
-- cadastro e edição de estoque
-- registro de movimentação de estoque
 
 ---
 
 ## Backend Java
 
-A API utilizada pelo app está em um repositório Java separado.
-
-### Repositório do backend
+Repositório do backend:
 
 ```bash
 git clone https://github.com/alex-isidro/70Graus-.git
 ```
 
-### Estrutura principal do backend
-
-```text
-70Graus--develop/
-├── pom.xml
-├── src/main/java/fiap/com/br/graus/
-│   ├── config/
-│   ├── controllers/
-│   ├── model/
-│   ├── repositories/
-│   └── services/
-└── src/main/resources/application.properties
-```
-
-### Recursos expostos pela API
+Endpoints utilizados pelo app:
 
 - `/funcionario`
 - `/produtos`
 - `/estoque`
 - `/movi-estoque`
 
-Esses endpoints cobrem as operações principais consumidas pelo aplicativo mobile.
-
----
-
-## Requisitos
-
-Antes de executar o projeto, tenha instalado:
-
-### Para o mobile
-- **Node.js** LTS
-- **npm**
-- **Expo CLI via npx**
-- **Android Studio** com emulador configurado ou dispositivo físico com Expo Go
-
-### Para o backend
-- **Java 17**
-- **Maven Wrapper** disponível no projeto (`mvnw` / `mvnw.cmd`)
-
 ---
 
 ## Como executar
 
-### 1. Suba o backend Java
+### 1) Clonar o app mobile
 
-Clone o backend:
+```bash
+git clone https://github.com/KelsonZh0/70Graus.git
+cd 70Graus
+```
+
+### 2) Subir o backend
 
 ```bash
 git clone https://github.com/alex-isidro/70Graus-.git
 cd 70Graus-
 ```
 
-Execute a aplicação Spring Boot:
-
-No Linux / macOS:
+Linux / macOS:
 
 ```bash
 ./mvnw spring-boot:run
 ```
 
-No Windows:
+Windows:
 
 ```bash
 mvnw.cmd spring-boot:run
 ```
 
-Por padrão, a API roda em:
+API padrão:
 
 ```text
 http://localhost:8080
 ```
 
----
+### 3) Rodar o app mobile
 
-### 2. Execute o app mobile
+Volte para a pasta do projeto mobile:
 
-Dentro do projeto mobile:
+```bash
+cd 70Graus
+```
+
+Instale as dependências e inicie o Expo:
 
 ```bash
 npm install
-npm start
-```
-
-ou
-
-```bash
 npx expo start
 ```
 
-Para abrir no Android:
+Android:
 
 ```bash
 npm run android
 ```
 
-Para abrir no iOS:
+iOS:
 
 ```bash
 npm run ios
@@ -265,98 +133,48 @@ npm run ios
 
 ---
 
-## Configuração de acesso à API
+## Configuração da API
 
-A aplicação mobile utiliza como base:
+No emulador Android, o app usa:
 
 ```ts
 http://10.0.2.2:8080
 ```
 
-Esse endereço funciona no **emulador Android**, porque `10.0.2.2` aponta para o `localhost` da máquina hospedeira.
-
-### Se estiver usando dispositivo físico
-
-Troque a URL base dos services para o IP local da sua máquina, por exemplo:
+Se estiver usando dispositivo físico, troque pela URL local da sua máquina:
 
 ```ts
-http://192.168.0.10:8080
+http://SEU-IP:8080
 ```
 
 ---
 
-## Scripts do projeto mobile
+## Diferenciais do projeto
 
-```bash
-npm start       # inicia o Expo
-npm run android # executa no Android
-npm run ios     # executa no iOS
-npm run web     # executa na web
-```
-
----
-
-## Padrão visual
-
-O projeto utiliza um tema centralizado em `src/styles/themes.ts`, com definição de:
-
-- paleta de cores
-- espaçamentos
-- raios de borda
-- tamanhos de fonte
-- estilos reutilizáveis
-
-Isso ajuda a manter consistência visual entre as telas e simplifica futuras alterações de layout.
+- navegação com stack e bottom tabs
+- separação entre telas, rotas, serviços e tema
+- integração entre mobile e backend Java
+- fluxo CRUD completo
+- base sólida para evolução acadêmica e portfólio
 
 ---
 
-## Boas práticas presentes no projeto
+## Próximos passos
 
-- separação entre interface, navegação e camada de serviços
-- uso de componentes funcionais
-- uso de hooks do React e hooks de navegação
-- feedback visual com `ActivityIndicator` e `Alert`
-- navegação estruturada com stack e bottom tabs
-- tipagem com TypeScript no app mobile
-- backend organizado em camadas com controller, service e repository
-
----
-
-## Pontos de evolução
-
-Como próximos passos, o projeto pode evoluir em:
-
-- autenticação baseada em token
-- persistência de sessão no app
-- centralização da URL da API em arquivo de configuração ou variável de ambiente
-- tipagem mais forte da navegação para reduzir uso de `any`
-- melhoria no tratamento de erros na camada de serviços
-- componentização adicional de botões, cards e inputs
-- documentação dos endpoints com Swagger/OpenAPI
-- banco persistente para o backend em vez de H2 em memória
+- autenticação com token
+- persistência de sessão
+- tipagem mais forte na navegação
+- melhoria no tratamento de erros
+- documentação da API com Swagger
+- banco persistente no backend
 
 ---
 
-## Contexto acadêmico
+## Autores
 
-Este projeto foi desenvolvido com foco em prática de:
-
-- React Native com Expo
-- navegação entre telas
-- formulários e fluxo CRUD
-- consumo de API com `fetch`
-- integração com backend Java
-- organização de código em camadas simples
+- Alexander Isidro
+- Kelson Zhang
 
 ---
 
-## Autor
-
-Desenvolvido por:
-
-**Alexander Isidro**
-
-**Kelson Zhang**
-
----
-Projeto acadêmico desenvolvido para fins de estudo e prática em desenvolvimento mobile e integração com backend Java.
+Projeto acadêmico com foco em prática de **desenvolvimento mobile**, **consumo de API** e **integração com backend Java**.
