@@ -6,7 +6,7 @@ import { estilosGlobais, CORES, ESPACAMENTO } from '../../styles/themes';
 import { EstoqueService, EstoqueProps } from '../../services/EstoqueService';
 
 export default function FormEstoqueScreen() {
-  const { goBack } = useNavigation<any>();
+  const { goBack, navigate } = useNavigation<any>();
   const route = useRoute<any>();
   
   // Pegamos o objeto produto que a ListaProdutos vai mandar para cá
@@ -56,11 +56,9 @@ export default function FormEstoqueScreen() {
 
     let sucesso = false;
     
-    // Se o Estoque desse Produto já existia (tem id próprio), a gente ATUALIZA
     if (estoqueAtual?.id) {
       sucesso = await EstoqueService.atualizar(estoqueAtual.id, estoqueSalvo);
     } else {
-      // Se não, é o primeiro cadastro de estoque (POST)
       sucesso = await EstoqueService.criar(estoqueSalvo);
     }
 
@@ -68,7 +66,7 @@ export default function FormEstoqueScreen() {
 
     if (sucesso) {
       Alert.alert('Carga Sucesso!', 'Os números de estoque foram salvos!');
-      goBack(); // Volta pra a lista
+      goBack(); 
     } else {
       Alert.alert('Erro fatal', 'Java não conectou (URL errada) ou Cód. 500 no Banco de Dados.');
     }
@@ -108,13 +106,15 @@ export default function FormEstoqueScreen() {
               placeholderTextColor={CORES.textoDesabilitado} 
             />
 
-            <TouchableOpacity 
-              style={[estilosGlobais.botaoPrimario, { marginTop: ESPACAMENTO.xl }]} 
-              onPress={handleSalvar} 
-              disabled={loading}
-            >
-              {loading ? <ActivityIndicator color="#000" /> : <Text style={estilosGlobais.botaoPrimarioTexto}>Confirmar Balanço</Text>}
-            </TouchableOpacity>
+            {estoqueAtual?.id && (
+              <TouchableOpacity 
+                style={[estilosGlobais.botaoPrimario, { marginTop: ESPACAMENTO.md, backgroundColor: CORES.amarelo }]} 
+                onPress={() => navigate('NovaMovimentacao', { estoque: estoqueAtual })} 
+              >
+                <Text style={[estilosGlobais.botaoPrimarioTexto, { color: '#000' }]}> Registrar Entrada / Saída de Peças </Text>
+              </TouchableOpacity>
+            )}
+
           </View>
         )}
       </View>

@@ -6,7 +6,6 @@ import { estilosGlobais, CORES, ESPACAMENTO, RAIO } from '../../styles/themes';
 import { ProdutoService, ProdutoProps } from '../../services/ProdutoService';
 import { EstoqueService, EstoqueProps } from '../../services/EstoqueService';
 
-// Tipo que não existe no Java, criado na Mente do App para misturar os dois
 type LinhaTabelaProps = {
   produto: ProdutoProps;
   estoque: EstoqueProps | null;
@@ -26,10 +25,8 @@ export default function PainelEstoqueScreen() {
   async function montarRelatorio() {
     setCarregando(true);
     
-    // 1. Puxa todos os Produtos Existentes
     const produtosApi = await ProdutoService.listar();
     
-    // 2. Faz uma verdadeira Tempestade de Pesquisas: para cada produto, puxa seu estoque
     const promessasDeEstoque = produtosApi.map(async (prod) => {
       const respEstoque = prod.id ? await EstoqueService.buscarPorProduto(prod.id) : null;
       return {
@@ -38,38 +35,35 @@ export default function PainelEstoqueScreen() {
       };
     });
 
-    // 3. O App espera baixar os N estoques todos de uma vez (Super Rápido em Paralelo)
     const relatorioPronto = await Promise.all(promessasDeEstoque);
     
     setDadosTabela(relatorioPronto);
     setCarregando(false);
   }
 
-  // Desenhando cada Linha da Tabela Exigente do Chefe!
   const renderFila = ({ item }: { item: LinhaTabelaProps }) => {
-    // 🚨 A Inteligência dos Alertas Coloridos do Lojista
     const temEstoque = item.estoque !== null;
     const qtdeAtual = temEstoque ? item.estoque!.quantidadeDisponivel : 0;
     const qtdeMinima = temEstoque ? item.estoque!.quantidadeMinima : 0;
     
-    let corDoStatus: string = CORES.verde; // Tudo Suave
+    let corDoStatus: string = CORES.verde; 
     let iconeStatus: string = "check-circle";
 
     if (!temEstoque) {
-      corDoStatus = CORES.textoDesabilitado; // Prende a borda de Cinza (Nunca Registrou Estoque)
+      corDoStatus = CORES.textoDesabilitado; 
       iconeStatus = "question-circle";
     } else if (qtdeAtual <= 0) {
-      corDoStatus = CORES.vermelho; // VERMELHO TOTAL! Esgotou (Sem Tênis p vender)
+      corDoStatus = CORES.vermelho; 
       iconeStatus = "times-circle";
     } else if (qtdeAtual <= qtdeMinima) {
-      corDoStatus = CORES.amarelo; // ATENÇÃO AMARELA! Bateu no Mínimo, vai acabar.
+      corDoStatus = CORES.amarelo; 
       iconeStatus = "exclamation-triangle";
     }
 
     return (
       <TouchableOpacity 
          style={[estilos.cardTabela, { borderLeftColor: corDoStatus, borderLeftWidth: 5 }]}
-         onPress={() => navigate('FormEstoque', { produto: item.produto })} // Se o dono clicar na linha da tabela, ele abre a sua telinha secreta de Estoque direto!!
+         onPress={() => navigate('FormEstoque', { produto: item.produto })}
       >
         <View style={{ flex: 1 }}>
           <Text style={estilosGlobais.subtitulo} numberOfLines={1}>{item.produto.nome}</Text>

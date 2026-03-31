@@ -42,7 +42,6 @@ export default function ListaProdutos() {
         </Text>
       </View>
       
-      {/* 🚀 AQUI ESTÁ A MÁGICA DOS 3 BOTÕES: Estoque, Editar e Excluir */}
       <View style={{ gap: 8, flexDirection: 'row', flexWrap: 'wrap', marginTop: 6 }}>
         
         <TouchableOpacity 

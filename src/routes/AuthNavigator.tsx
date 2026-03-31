@@ -7,6 +7,8 @@ import ListaProdutos from "../screens/app/ListaProdutos";
 import FormProdutoScreen from "../screens/app/FormProdutoScreen";
 import TabNavigator from "./TabNavigator";
 import FormEstoqueScreen from "../screens/app/FormEstoqueScreen";
+import MovimentacaoEstoqueScreen from "../screens/app/MovimentecaoEstoqueScreen";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -75,6 +77,17 @@ export default function AuthNavigator() {
                 component={FormEstoqueScreen} 
                 options={{ 
                     title: 'Controle de Estoque',
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: { fontSize: 25, fontWeight: 'bold' },
+                    headerStyle: { backgroundColor: '#000' },
+                    headerTintColor: '#fff' 
+                }} 
+            />
+                <Stack.Screen 
+                name="NovaMovimentacao" 
+                component={MovimentacaoEstoqueScreen} 
+                options={{ 
+                    title: 'Entrada / Saída',
                     headerTitleAlign: 'center',
                     headerTitleStyle: { fontSize: 25, fontWeight: 'bold' },
                     headerStyle: { backgroundColor: '#000' },
